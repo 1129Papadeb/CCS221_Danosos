@@ -5,6 +5,7 @@ import cv2
 import Exercises.TASK_1 as task1
 import Exercises.TASK_2 as task2
 import Exercises.TASK_3 as task3
+import Exercises.TASK_4 as task4
 
 def main():
     st.title("Midterm Exam in CCS221")
@@ -24,6 +25,10 @@ def main():
     _task3_filepath = st.sidebar.text_input('Enter file path: ', 'Exercises/images/img1.webp')
     _task3_transformations = st.sidebar.multiselect('Select tranformations to apply: ', \
                             ['translate', 'rotate', 'reflect', 'scale', 'shear'])
+    
+    st.sidebar.header("Rotations in 3D")
+    _task4_rotations = st.sidebar.multiselect('Select axis to rotate: ', \
+                                              ['x-axis', 'y-axis', 'z-axis'])
 
     if 'translate' in _task3_transformations:
         _task3_translationx = st.sidebar.slider('X Translation', 0, 1000)
@@ -86,6 +91,9 @@ def main():
             case 'shear':
                 st.write("Shear")
                 st.pyplot(task3.visualize(task3.shear(task3_image, _task3_shearx, _task3_sheary)))
+    
+    st.header("Task 4")
+    st.subheader("3D Rotations")
     
     if st.button("Exit"):
         st.stop()
