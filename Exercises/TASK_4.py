@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np 
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from scipy.spatial import Delaunay
@@ -20,7 +20,7 @@ def plot_object(points, title: str):
     ax.set_zlim3d(-5,5)
     plt.title(title)
 
-    return fig
+    plt.show()
 
 def rotate_x(points: np.array, angle: float) -> tf.Tensor:
     """Rotates a 3D object around the x-axis by a given angle in degrees.
@@ -116,8 +116,8 @@ def pyramid_rotations(theta_x: float, theta_y: float, theta_z: float):
     plot_object(rotated_object, "Rotated pyramid in z by 75 degrees")
 
 def prism_rotations(theta_x: float, theta_y: float, theta_z: float):
-    init_prism = prism_object(bottom_lower=(0, 0, 0), base_width = 1, height = 5, length= 5)
-    plot_object(init_prism, "Prism in 3D")
+    init_prism = prism_object(bottom_lower=(0, 0, 0), base_width = 1, height = 5, length = 5)
+    plot_object(init_prism, "Prism in 3D") 
 
     points = tf.constant(init_prism)
 
@@ -145,13 +145,62 @@ def octa_rotations(theta_x: float, theta_y: float, theta_z: float):
     rotated_object = rotate_z(init_octahedron, theta_z)
     plot_object(rotated_object, "Rotated octahedron in z by 75 degrees")
     
-def main():
-    cube_rotations(75, 75, 75)
-    tetra_rotations(75, 75, 75)
-    pyramid_rotations(75, 75, 75)
-    prism_rotations(75, 75, 75)
-    octa_rotations(75, 75, 75)
+    
+def translate_obj(points: np.array, translations: np.array) -> tf.Tensor:
+    """Translates a 3D object by a given translation matrix.
 
+    Args:
+        points (np.array): 3D object represented as a list of points.
+        angle (float): Angle in degrees.
+    """
+    # angle =  float(angle) 
+    # translation_matrix = tf.transpose(tf.stack([ 
+                        # [tf.cos(angle), tf.sin(angle), 0],
+                        # [-tf.sin(angle), tf.cos(angle), 0],
+                        # [0, 0, 1]
+        # ]))
+    # translate_object = tf.matmul(tf.cast(points, tf.float32), tf.cast(translation_matrix, tf.float32))
+    return tf.add(points, translations)
+
+
+        
+    
+    
+def cube_translation(): #(theta_x: float, theta_y: float, theta_z: float):
+    init_cube = cube_object(bottom_lower=(0, 0, 0), side_length=3)
+    plot_object(init_cube, "Cube in 3D")
+
+    points = tf.constant(init_cube)
+
+    #rotated_object = rotate_x(init_cube, theta_x)
+    #plot_object(rotated_object, "Rotated cube in x by 75 degrees")
+
+    #rotated_object = rotate_y(init_cube, theta_y)
+    #plot_object(rotated_object, "Rotated cube in y by 75 degrees")
+
+    #rotated_object = rotate_z(init_cube, theta_z)
+    #plot_object(rotated_object, "Rotated cube in z by 75 degrees")
+
+def shear_obj(points: np.array, translations: np.array) -> tf.Tensor:
+    shear_points = tf.stack([
+                                [sh_y, 0, 0],
+                                [sh_z, 1, 0],
+                                [0, 0, 1]
+    ])
+    
+    shear_object = tf.matmul(tf.cast(points, tf.float32), tf.cast(shear_points, tf.float32))
+    
+    return shear_object
+
+def reflect_obj()
+    
+def main():
+    cube_translation(75, 75, 75)
+    #tetra_rotations(75, 75, 75)
+   # pyramid_rotations(75, 75, 75)
+   # prism_rotations(75, 75, 75)
+   # octa_rotations(75, 75, 75)
 
 if __name__ == "__main__":
     main()
+
